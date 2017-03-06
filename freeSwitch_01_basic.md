@@ -6,77 +6,181 @@
 
 ## 一、安装
 
-Mac安装特别简单 使用官网提供的 brew install  即可。
+Mac安装特别简单
 
 
 
-基本的安装完毕之后可以安装声音文件：
+官网提供了 **Mac FI** - Mac freeswich installer 来安装freeswitch
+
+[Mac installer]: https://freeswitch.org/confluence/display/FREESWITCH/macOS+macFI+Installation
 
 
 
+安装完成后 freeswitch 的安装路径和源码路径如下：
+
+
+
+**bin:**
+
+~~~
+/usr/local/freeswitch
+~~~
+
+
+
+**src:**
+
+~~~
+/usr/local/src/freeswitch
+~~~
+
+
+
+
+
+* 安装声音文件：
+
+~~~
 make sounds-install
+~~~
 
+~~~
 make moh-install
+~~~
 
 
 
-升级到最新版本：
+* 升级到最新版本：
 
+~~~
 make current
+~~~
 
+* 重新编译
 
-
-## 二、连接客户端进行测试
-
-
-
-使用 x-lite
-
-
-
-使用 zoiper [多客户端和网页端均可]  Mac/PC  iOS /android / web
+~~~
+make sure
+~~~
 
 
 
 
+
+* 安装之后建立软连接：[在 /usr/bin 目录下建立 freeswitch & fs_cli 的快捷方式]
+
+~~~
+ln -sf /usr/local/freeswitch/bin/freeswitch   /usr/bin
+~~~
+
+~~~
+ln -sf /usr/local/freeswitch/bin/fs_cli.     /usr/bin
+~~~
+
+
+
+
+
+* 常用的启动方式：
+
+~~~
+freswitch -nc            后台运行
+~~~
+
+~~~
+freeswitch -nonat        不检测nat
+~~~
+
+
+
+## 二、测试
+
+* 经常使用的客户端：
+
+**x-lite**
+
+**zoiper**  [多客户端和网页端均可]  Mac/PC  iOS /android / web
+
+
+
+**系统预留 1000 ～ 1019   20个测试账户，可以随便使用。**
+
+
+
+**sip账户设置**
+
+| Item         | value                                    |
+| :----------- | :--------------------------------------- |
+| user_account | 1000 ~ 1019                              |
+| Password     | 1234                                     |
+| Domain       | IP address of server / domain name of server |
+|              |                                          |
+
+
+
+
+
+* 配置后之后久可以使用两个客户端进行通话测试了。
+
+  例如用 1000 call 1001
+
+  ​
 
 ## 三、基础使用
 
 ### 1.检测系统是否运行: 
 
-ps -ef | grep freeswitch
+* 进程是否存在：
+
+  ~~~
+  ps -ef | grep freeswitch
+  ~~~
+
+  ​
+
+* 端口是否起来
+
+  ~~~
+  netstat -ntlp | grep 5060
+  ~~~
+
+  ​
 
 
 
-或者
-
-```
-netstat -ntlp | grep 5060
-```
+### 2.默认号码 
 
 
 
-### 2.拨打 9664 收听保持音乐 
+| 号码                    | 说明       |
+| :-------------------- | :------- |
+| 9664                  | 保持音乐     |
+| 9195                  | echo回音测试 |
+| 33xx ／ 32xx／31xx／30xx | 电话会议     |
+|                       |          |
 
 
 
-详细见拨号计划
+参考拨号计划：
 
-
-
-9664  保持音乐
-
-9195/9196 echo测试
-
-33xx 电话会议
-
-
+**Defaut_Dialplan_QRF**
 
 
 
 ### 3. 配置文件
 
+* 目录： ／usr/lcoal/freeswitch/conf
 
+| 目录和文件            | 说明   |
+| ---------------- | ---- |
+| vars.xml         |      |
+| awitch.xml       |      |
+| autoload_configs |      |
+| chatplan         |      |
+| dialplan         |      |
+
+
+
+![conf_directory](/Users/wei/Github/voip_practise/img/conf_directory.png)
 
 
 
@@ -84,7 +188,10 @@ netstat -ntlp | grep 5060
 
 ### 4.添加一个用户
 
-三步
+* 三步
+  1. 在conf/directory/default 中增加一个用户配置文件
+  2. 修改拨号计划（Dialplan）使其他用户可以呼叫到他
+  3. 重新加载配置文件使其生效。
 
 然后 reloadxml命令即可生效
 
@@ -246,7 +353,7 @@ Core包含了关键的数据结构和代码、状态机、数据库等
 
   ​
 
-# 五 拨号计划 Dial Plan
+## 五 拨号计划 Dial Plan
 
 
 
@@ -259,9 +366,9 @@ Core包含了关键的数据结构和代码、状态机、数据库等
 
 
 
-# 六 SIP协议
+## 六 SIP协议
 
-## 对比HTTP协议：
+### 对比HTTP协议：
 
 http request
 
@@ -312,7 +419,7 @@ SIP用户的中间人：
 
   ​
 
-## sip消息组成：
+### sip消息组成：
 
 SIP 消息有消息头和消息组成：
 
@@ -353,7 +460,7 @@ SIP 消息有消息头和消息组成：
 
 
 
-## SIP注册流程：
+### SIP注册流程：
 
 
 
@@ -368,7 +475,7 @@ SIP 消息有消息头和消息组成：
 
 
 
-## 深入理解SIP
+### 深入理解SIP
 
 * SIP URI
 * SDP & SOA
@@ -377,7 +484,7 @@ SIP 消息有消息头和消息组成：
 
 
 
-## 小结
+### 小结
 
 打开/关闭调试信息的命令：
 
@@ -391,7 +498,7 @@ sofia global siptrace on / off
 
 
 
-# 七 媒体
+## 七 媒体
 
 
 
