@@ -1,3 +1,8 @@
+---
+t
+ypora-root-url: ./img/conf_directory.png
+---
+
 # freeSwitch Basic
 
 
@@ -180,112 +185,325 @@ freeswitch -nonat        不检测nat
 
 
 
-![conf_directory](/Users/wei/Github/voip_practise/img/conf_directory.png)
+**插入图片**
 
-
+配置目录的图片
 
 
 
 ### 4.添加一个用户
 
-* 三步
+* 三步  [ **以添加用户1234为例** ]
+
   1. 在conf/directory/default 中增加一个用户配置文件
+
+     ~~~
+     cd  /usr/local/freeswitch/conf/directory/default
+     cp  1000.xml   1234.xml
+     vim 1234.xml   //把1000都换成1234，然后把effective_caller_id_name的值改为 Jack
+     ~~~
+
+     ​
+
   2. 修改拨号计划（Dialplan）使其他用户可以呼叫到他
+
+     ~~~
+     cd  /usr/local/freeswitch/conf/dialplan/
+     vim default.xml
+     修改：
+     <condition field="destination_number" expression="^(10[01][0-9])$">
+     为：
+     <condition field="destination_number" expression="^(10[01][0-9]|1234)$"> //增加 |1234
+     ~~~
+
+     ​
+
   3. 重新加载配置文件使其生效。
 
-然后 reloadxml命令即可生效
+     ~~~
+     reloadxml  /  F6            // reloadxml命令即可生效
+     ~~~
+
+* 测试：
+
+在SIP终端中添加账号1234，测试能不能打通电话。
+
+
+
+* 常见命令：
+
+```
+sofia status profile internal reg      //显示多少用户已注册
+```
+
+```
+originate user/1000  &echo    //echo程序
+```
+
+```
+originate user/1000 9999      //1000 call 9999
+```
+
+```
+originate user/1000 &echo  XML default // 1000 echo
+```
 
 
 
 
 
-然后：
+### 5.freeswitch做客户端 [需要安装 mod_portaudio ]
 
-sofia status prfile internal reg  显示多少用户已注册
+* 安装方法：
 
-originate user/1000  &echo    echo程序
-
-originate user/1000 9999 
-
-originate user/1000 &echo  XML default
-
-
-
-
-
-### 5.freeswitch做客户端
-
+```
 make mod_portaudio
+```
 
+```
 make mod_portaudio-install
+```
 
-
-
-fs_cli:
-
-load mod_portaudio
-
-
-
-### 6.常用参数
+**fs_cli:**
 
 ```
-freeswitch -nc  /*no console*/
+load mod_portaudio-install   //
 ```
 
 
 
+* 设备配置
+
+```
+pa devlist   //查看设备列表
+```
+
+```
+pa indev  #0   //配置输入输出
+pa outdev #2
+```
+
+
+
+* **命令行软电话：**
+
+```
+pa looptest   echo测试
+```
+
+```
+pa call 9196  呼叫
+```
+
+```
+pa call 1000  呼叫
+```
+
+```
+pa hangup     挂机
+```
+
+
+
+**现在久可以使用这个软电话呼叫任何的号码了。**
+
+* 配置以使得其他的号码能够呼到这个软电话：
+
+```
+cd ~/conf/dialplan/default/portaudio.xml
+
+添加：
+===
+```
+
+然后F6 使生效。
+
+
+
+* 配置铃声的话需要修改文件 **~/conf/autoload_config/portaudio.conf.xml** 文件
+
+  ​
+
+### 6.配置SIP网关拨打外部电话
+
+如果有运营商提供的SIP账号，那么就可以拨打外部电话了。对于fs而言，这个账号便是 **SIP网关**。
+
+```
+修改：
+**/usr/local/freeswitch/conf/sip_profiles/external** 文件
 
 
 ```
-freeswitch -nonat  /*no NAT*/
+
+然后执行：
+
+```
+sofia profile external rescan.  
+```
+
+显示网关状态：
+
+```
+sofia status     //reged表示已经注册上了
+```
+
+测试网关是否正常工作：
+
+```
+orignate sofia/gateway/gw1/12345678 &echo  //通过网关拨打你手机号码
+```
+
+
+
+* 从某一分机呼出 ／ 呼入电话处理
+
+
+
+### 7.基础命令
+
+```
+freeswitch -h
+```
+
+```
+Usage: freeswitch [OPTIONS]
+
+These are the optional arguments you can pass to freeswitch:
+	-nf                    -- no forking
+	-reincarnate           -- restart the switch on an uncontrolled exit
+	-reincarnate-reexec    -- run execv on a restart (helpful for upgrades)
+	-u [user]              -- specify user to switch to
+	-g [group]             -- specify group to switch to
+	-core                  -- dump cores
+	-help                  -- this message
+	-version               -- print the version and exit
+	-rp                    -- enable high(realtime) priority settings
+	-lp                    -- enable low priority settings
+	-np                    -- enable normal priority settings
+	-vg                    -- run under valgrind
+	-nosql                 -- disable internal sql scoreboard
+	-heavy-timer           -- Heavy Timer, possibly more accurate but at a cost
+	-nonat                 -- disable auto nat detection
+	-nonatmap              -- disable auto nat port mapping
+	-nocal                 -- disable clock calibration
+	-nort                  -- disable clock clock_realtime
+	-stop                  -- stop freeswitch
+	-nc                    -- do not output to a console and background
+	-ncwait                -- do not output to a console and background but wait until the system is ready before exiting (implies -nc)
+	-c                     -- output to a console and stay in the foreground
+
+	Options to control locations of files:
+	-base [basedir]         -- alternate prefix directory
+	-cfgname [filename]     -- alternate filename for FreeSWITCH main configuration file
+	-conf [confdir]         -- alternate directory for FreeSWITCH configuration files
+	-log [logdir]           -- alternate directory for logfiles
+	-run [rundir]           -- alternate directory for runtime files
+	-db [dbdir]             -- alternate directory for the internal database
+	-mod [moddir]           -- alternate directory for modules
+	-htdocs [htdocsdir]     -- alternate directory for htdocs
+	-scripts [scriptsdir]   -- alternate directory for scripts
+	-temp [directory]       -- alternate directory for temporary files
+	-grammar [directory]    -- alternate directory for grammar files
+	-certs [directory]      -- alternate directory for certificates
+	-recordings [directory] -- alternate directory for recordings
+	-storage [directory]    -- alternate directory for voicemail storage
+	-cache [directory]      -- alternate directory for cache files
+	-sounds [directory]     -- alternate directory for sound files
+
+```
+
+
+
+* 常用的参数
+
+```
+freeswitch -nc
+
+tail -f  log/freeswitch.log. //通过tail查看freeswitch输出
+```
+
+```
+freeswitch -nonat   // no nat
+```
+
+
+
+* 设置**开机启动**脚本：
+
+```
+把源码目录中的 ~/build/freeswitch.init.* 放到 /etc/init.d 目录下
 ```
 
 
 
 
 
+* 常用命令
 
-
-### 7.配置SIP网关拨打外部电话
-
-
-
-
-
-
-
-### 8.基础命令
-
-
-
+```
 version
-
 status
-
 sofia status
-
 help
+```
 
 
 
+* 控制台快捷键
 
+```
+F1 ～ F12
 
-### 9.呼叫
-
-发起呼叫
-
-
-
-
-
-
-
-### 10.
+cd /usr/local/freeswitch/conf/autoload_configs
+vim switch.conf.xml
+```
 
 
 
+### 8.呼叫
 
+* 发起呼叫
+
+```
+originate user/1000 &echo
+```
+
+* 查看注册信息：
+
+```
+sofia status profile internal reg
+```
+
+* park
+
+```
+originate user/alice &park
+```
+
+* hold
+
+```
+originate user/alice &hold
+originate user/alice &playback(/root/welcome.wav)   //play specify wave file
+originate user/alice &record(/tmp/voice_of_alice.wav)   //record
+```
+
+* Bridge  **桥接通话**
+
+```
+originate user/alice  &bridge(user/bob)    
+```
+
+
+
+**完整过程演示**：
+
+```
+orginate user/alice &park
+orginate user/bob &park
+show channels
+uuids_bridge <alice_uuid> <bob_uuid>
+```
 
 
 
