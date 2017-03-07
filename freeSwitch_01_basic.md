@@ -511,51 +511,127 @@ uuids_bridge <alice_uuid> <bob_uuid>
 
 ## 四、架构
 
-
-
-稳定的核心 + 外围模块儿
-
-Endpoint Codec DialPlan Application
-
-
-
-##### 核心Core
-
-Core包含了关键的数据结构和代码、状态机、数据库等
-
-外围模块通过 Core核心提供的API进行通信
-
-保障了核心的稳定性
-
-###### 数据库      
+* **处理高并发请求的架构**
 
 ```
-默认使用sqlite数据库 ，sqlite会进行读锁定，不建议外部应用直接读取核心数据库
+使用线程模型来处理并发请求，每个连接都在单独的线程中进行处理，不同的线程间通过Mutex互斥访问共享资源，并通过消息和异步事件等方式进行通信。
+
+**能处理很高的并发，并且在多核环境中运算能均匀的分布到多棵CPU或者单科CPU的多个核上。**
 ```
 
 
 
-###### 公共应用程序接口 Public API
+* **组织架构**
+
+```
+* 内核小 负责基本的功能
+* 外围扩展 可动态加载及卸载
+
+外围模块儿通过核心代码提供的 Public API 与外围进行通信，核心则通过回调机制执行外围模块儿中的代码。
+
+```
 
 
 
-当Endpointer模块收到一个呼入请求时，此模块调用核心的 switch_core_session_request 函数为呼叫生成一个新的Session
+* 架构图
+
+lic here
+
+### 核心Core
+
+#### 数据库
+
+* 系统默认的数据库是 sqlite 
+* 也支持ODBC的方式连接到其他数据库
+
+```
+核心数据库的位置：
+／usr/local/freeswitch/db/core.db
+```
 
 
 
-当销毁是调用 switch_core_session_destroy函数将Session释放
+#### 公共应用程序接口 Public-API
+
+
+
+#### 接口 Interface
+
+
+
+#### 事件 Event
+
+
+
+```
+fs_cli> /event plain all
+```
+
+
+
+freeswitch主要事件有两类：
+
+* 主事件
+* 自定义事件
+
+### 接口实现
+
+* 终点
+* 拨号计划
+* 聊天计划
+* 常用程序
+* 命令接口
+* XML接口
+* 编解码器
+* 语音识别和语音合成
+* 格式、文件接口
+* 日志
+* 定时器
+* 嵌入式语言
+* 事件套接字
+
+
+
+### 目录结构
+
+```
+程序位置：
+／usr/local/freeswitch
+/usr/local/src/freeswitch
+
+```
+
+
+
+* 目录结构：
 
 
 
 
 
-#### 配置文件
+### 配置文件
+
+```
+XML调试方法：
+log/freeswitch.xml.fsxml 是XML的一个内存镜像，可以利用它排错。
+```
 
 * freeswitch.xml
+
+
+
+
 * vars.xml
 * autoload_configures 目录
-* XML用户目录
 
+
+
+
+
+
+
+
+### XML用户目录
 
 
 
