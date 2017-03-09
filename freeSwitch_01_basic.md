@@ -616,16 +616,73 @@ XML调试方法：
 log/freeswitch.xml.fsxml 是XML的一个内存镜像，可以利用它排错。
 ```
 
-* freeswitch.xml
+* **freeswitch.xml**
+
+
+**总配置文件**，其中包含了各个 section 对应的文件时什么
+
+如下：
+
+```
+X-PRE-PROCESS
+
+data:
+vars.xml
+autoload_configs/*.xml
+
+
+坑：
+试图去注释掉一个是没有用的 必须破坏掉XML
+```
+
+
+
+* **vars.xml**
+
+
+ **定义全局变量**
+
+```Xml
+domain
+domain_name
+hold_music
+use_profile
+```
+
+
+
+* 查看变量值的命令
+
+```
+global_getvar  sound_prefix
+
+```
 
 
 
 
-* vars.xml
-* autoload_configures 目录
+
+* **autoload_configures 目录**
 
 
 
+
+```
+sofia.conf.xml
+
+modules.conf.xml                          决定freeSwitch启动时自动加载哪些模块儿
+post_load_modules.conf.xml                玩些时候加载的模块名单 
+```
+
+
+
+* 其它目录
+
+```
+* dialplan
+* ivr_menues
+* directory
+```
 
 
 
@@ -633,19 +690,85 @@ log/freeswitch.xml.fsxml 是XML的一个内存镜像，可以利用它排错。
 
 ### XML用户目录
 
+```
+/usr/local/freeswitch/conf/directory/   
+default.xml
+default_dir 
+	1001.xml
+	1002.xml
+	...
+	1019.xml
+```
+
+**default.xml**
+
+```
+
+domain
+params
+variables
+
+```
 
 
-#### 呼叫的相关概念
+
+
+
+### 呼叫的相关概念
+
+* 典型的呼叫流程：
+
+- [ ] Bob - > freeswitch , freeswitch - > Alice
+- [ ] Freeswitch  -> Bob &  Freeswitch  -> Alice, 然后把 Bob & Alice bridge到一起
+
+
 
 * 来话 去话
 
-* Session
+来话去话都是针对freeswitch来讲的
 
-* Channel
+- [ ] 来话： 拨打fs
+- [ ] 去话：接听fs来话
 
-* Call
 
-  ​
+
+* Session     sip session 用于控制整个呼叫流程
+
+
+
+* Channel 每个session控制一个 channel，channel是一对儿UA之间通信的实体。每个channel有一个ID，
+
+叫 Channel UUID。
+
+```
+freeswitch的作用是把两个channel桥接到一起，使双方可以正常的通话。
+
+```
+
+
+
+```
+在通话中，音频和视频数据流在RTP包中传输。
+
+Channel一般是双向的，因此媒体流会有 send／write & receive ／ read 两个方向
+```
+
+
+
+* 回铃音   &  Early Media
+* 全局变量  &   局部变量
+
+
+
+### 小结
+
+
+
+
+
+
+
+
 
 ## 五 拨号计划 Dial Plan
 
