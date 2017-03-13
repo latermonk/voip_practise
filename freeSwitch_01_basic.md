@@ -1,3 +1,7 @@
+---
+typora-copy-images-to: ipic
+---
+
 # freeswitch Basic
 
 
@@ -767,8 +771,35 @@ Channel一般是双向的，因此媒体流会有 send／write & receive ／ rea
 
 ## 五 拨号计划 Dial Plan
 
+```
+主要作用是：
+对电话进行路由，决定和影响通话的流程。
 
 
+就是当用户拨号时，对用户的拨号进行分析，进而决定下一步该如何做。
+
+```
+
+
+
+### XML Dialplan
+
+* 文件位置：
+
+```
+／usr/local/freeswitch/conf/dialplan
+
+freeswitch.xml中写到：
+
+
+<X-PRE-PROCESS cmd="include" data="dialplan/*.xml">
+```
+
+
+
+
+
+* ​
 * ​
 * ​
 * ​
