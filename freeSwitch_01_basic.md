@@ -811,12 +811,20 @@ test extension
 
 ```xml
 <extension name="my echo Test"
-           <condition field="destination number" expression = "^echo|1234$"
+           <condition field="destination_number" expression = "^echo|1234$"  />
 				<action application="answer" data=""/>
-				<action application="answer" data=""/>
+				<action application="echo" data=""/>
 		   </condition>
 </extention>
 
+```
+
+* 配置文件 default.xml
+
+```
+把刚才的配置添加到 default.xml中，reloadxml / F6
+
+20170313 18:47 :)
 ```
 
 
