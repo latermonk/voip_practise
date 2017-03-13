@@ -797,6 +797,28 @@ freeswitch.xml中写到：
 
 
 
+* 拨号计划
+
+```
+* Context
+* Extension
+
+```
+
+
+
+test extension
+
+```xml
+<extension name="my echo Test"
+           <condition field="destination number" expression = "^echo|1234$"
+				<action application="answer" data=""/>
+				<action application="answer" data=""/>
+		   </condition>
+</extention>
+
+```
+
 
 
 * ​
