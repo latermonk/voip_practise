@@ -1,9 +1,4 @@
----
-t
-ypora-root-url: ./img/conf_directory.png
----
-
-# freeSwitch Basic
+# freeswitch Basic
 
 
 
