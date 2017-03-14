@@ -914,7 +914,17 @@ routing  ->  excuting
 
 * 通道变量
 
+修改 Dialplan ,在 default.xml 加入 extension
 
+
+
+```Lua
+<extension name="show channel variable">
+	<condition field="destiination_number" expression="^1235|info$">
+		<action application="info" data="" />
+	</condition>
+</extension>
+```
 
 
 
