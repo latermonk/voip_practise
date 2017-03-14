@@ -829,7 +829,48 @@ test extension
 
 
 
-* ​
+然后 注册客户端，拨打1234
+
+```
+[INFO] mod_dialplan_xml.c:637 Processing 1000 <1000>->1234 in context default
+处理dialplan 1000 -> 拨打 1234 
+
+1.呼叫已达到路由阶段，要从 XML PLAN 中寻找路由
+2.1000是主叫 1234是被叫 
+
+
+
+Dialplan: sofia/internal/1000@10.1.42.123 parsing [default->my echo test] continue=false
+
+XML解析阶段
+
+从XML中找到一个 context，它的第一个 extension是 my echo test
+
+
+
+
+Dialplan: sofia/internal/1000@10.1.42.123 Regex (PASS) [my echo test] destination_number(1234) =~ /^echo|1234$/ break=on-false
+
+Dialplan: sofia/internal/1000@10.1.42.123 Action answer()
+
+Dialplan: sofia/internal/1000@10.1.42.123 Action echo()
+
+
+
+```
+
+
+
+* 呼叫状态切换
+
+```
+routing  ->  excuting
+```
+
+
+
+
+
 * ​
 * ​
 * ​
