@@ -1,7 +1,3 @@
----
-typora-copy-images-to: ipic
----
-
 # freeswitch Basic
 
 
