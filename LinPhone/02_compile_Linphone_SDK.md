@@ -1,6 +1,4 @@
----
-typora-copy-images-to: ipic
----
+
 
 # compile Linphone SDK & linphone for ios
 
