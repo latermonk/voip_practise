@@ -36,6 +36,15 @@
   ~~~
   show registrations
   ~~~
+  ​
+
+* 剔除在线用户
+
+  ```
+  sofia profile internal flush_inbound_reg 1007 
+  ```
+
+  ​
 
 * 更改日志级别
 
