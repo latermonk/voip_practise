@@ -8,7 +8,7 @@
 
 
 
-- open web  http://linphone.org/technical-corner/linphone/downloads
+- Open web  http://linphone.org/technical-corner/linphone/downloads
 
 then donwload :
 
@@ -20,9 +20,9 @@ git clone git://git.linphone.org/linphone-iphone.git --recursive
 
 - Open web https://github.com/BelledonneCommunications/linphone-iphone
 
-  ```
-  git clone https://github.com/BelledonneCommunications/linphone-iphone.git
-  ```
+```
+git clone https://github.com/BelledonneCommunications/linphone-iphone.git
+```
 
 
 
