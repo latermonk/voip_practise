@@ -37,9 +37,9 @@ PATH=/usr/local/bin:$PATH
 
 
 
-Pic1
 
-![](https://github.com/latermonk/voip_practise/blob/master/img/SDK.png)
+
+![](https://github.com/latermonk/voip_practise/raw/master/img/SDK.png)
 
 
 
@@ -49,13 +49,9 @@ Pic1
 
 ## 
 
-Pic1
+![](https://github.com/latermonk/voip_practise/raw/master/img/Snip20170816_3.png)
 
-pic2
+![](https://github.com/latermonk/voip_practise/raw/master/img/Snip20170816_2.png)
 
-pic3
-
-
-
-
+![](https://github.com/latermonk/voip_practise/raw/master/img/Snip20170816_1.png)
 
