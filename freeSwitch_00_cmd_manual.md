@@ -65,3 +65,16 @@ originate user/1000 &bridge(user/1001）
 
 
 拨打 1000 & 1001 的电话会议
+
+
+
+
+
+管理命令：
+
+## 批量建立用户：shell命令
+
+```shell
+for i in `seq 1020 1039`; do sed -e "s/1000/$i/" 1000.xml > $i.xml ; done
+```
+
