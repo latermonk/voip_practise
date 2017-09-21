@@ -1,3 +1,7 @@
+---
+
+---
+
 # cmmmand_manual命令行手册
 
 ## 服务器状态
@@ -92,5 +96,5 @@ Vim  ~/dialplan/default.xml
 express part 正则修改一下即可
 ```
 
-
+![](https://raw.githubusercontent.com/latermonk/voip_practise/master/img/change_dialplan.jpg)
 
