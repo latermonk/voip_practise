@@ -75,6 +75,18 @@ originate user/1000 &bridge(user/1001）
 ## 批量建立用户：shell命令
 
 ```shell
+cd conf/directory/dafault
+```
+
+```shell
 for i in `seq 1020 1039`; do sed -e "s/1000/$i/" 1000.xml > $i.xml ; done
 ```
+
+```shell
+F6
+```
+
+
+
+
 
