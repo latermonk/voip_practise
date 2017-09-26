@@ -37,6 +37,12 @@ PATH=/usr/local/bin:$PATH
 
 
 
+如果需要对SDK进行调试，最好再编译的时候打开此开关：
+
+```shell
+./prepare.py -c && ./prepare.py --debug && make
+```
+
 
 
 ![](https://github.com/latermonk/voip_practise/raw/master/img/SDK.png)
