@@ -16,7 +16,7 @@ then donwload :
 git clone git://git.linphone.org/linphone-iphone.git --recursive
 ```
 
-
+注意加参数： **--recursive**
 
 - Open web https://github.com/BelledonneCommunications/linphone-iphone
 
@@ -25,6 +25,8 @@ git clone https://github.com/BelledonneCommunications/linphone-iphone.git
 ```
 
 
+
+两个源的代码其实是一样的 随便选一个即可。
 
 
 ## 2.compile SDK 
@@ -37,7 +39,7 @@ PATH=/usr/local/bin:$PATH
 
 
 
-如果需要对SDK进行调试，最好再编译的时候打开此开关：
+如果需要对SDK进行调试，最好再编译的时候打开此**调试开关**：
 
 ```shell
 ./prepare.py -c && ./prepare.py --debug && make
@@ -91,3 +93,7 @@ sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer/
 ```
 
 
+
+
+
+## 4.其它问题
