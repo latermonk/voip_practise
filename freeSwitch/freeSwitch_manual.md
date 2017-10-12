@@ -78,8 +78,6 @@ ln -sf /usr/local/freeswitch/bin/fs_cli.     /usr/bin
 
 
 
-
-
 * 常用的启动方式：
 
 ~~~
@@ -1077,6 +1075,277 @@ sofia global siptrace on / off
 ## 七 媒体
 
 
+
+
+
+# freeswitch How To Debug ？
+
+
+
+* 发现问题
+
+~~~
+* 核实问题的现象 
+* 看问题是否能够重现？
+
+~~~
+
+
+
+* 定位问题
+
+~~~
+* 分段判断法  从逻辑上和功能上清理问题
+
+* 换位思考法  看看问题出现在那一边？
+
+
+
+~~~
+
+
+
+*  分段法  单独测试通话的一方有没有问题，然后在进行多方的测试。
+
+~~~
+例如单独拨打 9196 来进行测试
+
+
+
+如果都不正常，就说明问题出在拨打电话的哪一方面，流程根本没有走到通话的另一方。
+
+~~~
+
+
+
+
+
+* 逐一排除的时候可以试试
+
+~~~
+Linux防火墙有没有关闭，暂时/永久 关闭Linux的 iptables / windows 防火墙
+
+~~~
+
+
+
+### 调试方法
+
+~~~
+
+1. show channel 查看 channel id
+2. uuid_debug_media查看调试输出
+
+uuid_debug_media XXX  both on 
+
+
+
+
+~~~
+
+
+
+
+
+
+
+### 查看日志
+
+系统日志中警告和错误市比较高级别的日志。
+
+
+
+~~~
+可以使用 console loglevel debug 命令打开debug级别的日志
+
+当然，也可以把日志级别设置到其他的级别
+
+
+~~~
+
+
+
+~~~
+打开抓包：
+sofia profile internal siptrace on 
+sofia profile external siptrace on 
+
+关闭抓包：
+sofia global siptrace off
+
+~~~
+
+
+
+
+
+### 外部抓包
+
+* tupdump
+* tshark
+* ngrep
+* pcapsipdump
+* ​
+
+
+
+
+
+# freeswitch QA
+
+##### fs如何支持视频通话？
+
+~~~
+在配置文件中配置视频解码 H263 H263+等，然后在两个一样的终端上进行视频通话的测试
+~~~
+
+### 
+
+##### fs如何支持语音会议?
+
+~~~
+
+~~~
+
+
+
+* fs如何支持中文语音留言等
+
+* sip vs sips , sip协议如何加密？   如何使用TLS为SIP协议加密？  TCP  TLS
+
+* 如何查看freeswitch的调试信息？
+
+  ~~~
+
+  ~~~
+
+
+* freeSwitch如何做压力测试？
+
+  ~~~
+  sipp: sip press
+  ~~~
+
+* fs如何支持中文语音？
+
+  ~~~
+  1.设置方法：
+  ~~~
+
+
+  2.配置方法
+
+
+  ~~~
+
+  
+  ~~~
+
+
+
+
+
+
+
+
+
+
+
+# freeswitch Command命令行手册
+
+## 服务器状态
+
+
+
+## 拨打电话命令
+
+
+
+
+
+## 调试命令
+
+
+
+* 查看服务器状态：
+
+  ~~~
+  sofia status profile internal
+  ~~~
+
+  ​
+
+* 查看注册信息：【详细】
+
+  ~~~
+  sofia status profile internal
+  sofia status profile internal reg
+  ~~~
+
+  ​
+
+* 显示注册用户 【分行】
+
+  ~~~
+  show registrations
+  ~~~
+  ​
+
+* 剔除在线用户
+
+  ```
+  sofia profile internal flush_inbound_reg 1007 
+  ```
+
+  ​
+
+* 更改日志级别
+
+  ~~~
+  console loglevel debug/info/...
+  ~~~
+
+* ​
+
+
+
+## 电话会议
+
+~~~
+originate user/1000 &bridge(user/1001）
+~~~
+
+
+
+拨打 1000 & 1001 的电话会议
+
+
+
+
+
+管理命令：
+
+## 批量建立用户：shell命令
+
+```shell
+cd ~/conf/directory/dafault
+```
+
+```shell
+for i in `seq 1020 1039`; do sed -e "s/1000/$i/" 1000.xml > $i.xml ; done
+```
+
+```shell
+F6
+```
+
+```
+Vim  ~/dialplan/default.xml
+
+express part 正则修改一下即可
+```
+
+![](https://raw.githubusercontent.com/latermonk/voip_practise/master/img/change_dialplan.jpg)
 
 
 
