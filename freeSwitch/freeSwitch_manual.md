@@ -1195,6 +1195,12 @@ sofia global siptrace off
 
 ##### fs如何支持视频通话？
 
+```xml
+<X-PRE-PROCESS cmd="set" data="codec_string=OPUS,G722,PCMU,PCMA,H264,VP8"/>
+```
+
+
+
 ~~~
 在配置文件中配置视频解码 H263 H263+等，然后在两个一样的终端上进行视频通话的测试
 ~~~
