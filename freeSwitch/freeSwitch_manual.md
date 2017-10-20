@@ -1,7 +1,8 @@
 # freeswitch Basic
 
+## 零、常用命令查询
 
-
+[command_Card 点击这里](https://freeswitch.org/confluence/display/FREESWITCH/mod_commands)
 
 
 ## 一、安装
