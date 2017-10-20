@@ -5,6 +5,10 @@
 [command_Card 点击这里](https://freeswitch.org/confluence/display/FREESWITCH/mod_commands)
 
 
+
+
+
+
 ## 一、安装
 
 Mac安装特别简单
@@ -1353,6 +1357,34 @@ express part 正则修改一下即可
 ```
 
 ![](https://raw.githubusercontent.com/latermonk/voip_practise/master/img/change_dialplan.jpg)
+
+
+
+## 参数
+
+```
+<param name="inbound-proxy-media" value="true"/>
+
+```
+
+这个参数的作用是什么？
+
+
+
+## freeswitch的三种媒体处理模式：
+* 默认模式
+* 代理模式
+* 透传模式
+
+
+
+|  | Default | Proxy | Bypass |
+| --- | --- | --- | --- |
+| 媒体是否从fs经过 | Y | Y | N |
+| 是否可以对流媒体编解码 | Y | N | N |
+| 是否需要终端语音编解码协商一致 | N | Y | Y |
+| 支持录音DTMF解析会议编解码转换 | Y | N | N |
+
 
 
 
