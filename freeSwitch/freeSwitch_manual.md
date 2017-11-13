@@ -1288,6 +1288,13 @@ sofia global siptrace off
 
 * 查看注册信息：【详细】
 
+  ```shell
+  list_users   查看所有在线用户
+  list_users  user 1000 查看1000在线情况
+  ```
+
+  ​
+
   ~~~
   sofia status profile internal
   sofia status profile internal reg
@@ -1378,12 +1385,12 @@ express part 正则修改一下即可
 
 
 
-|  | Default | Proxy | Bypass |
-| --- | --- | --- | --- |
-| 媒体是否从fs经过 | Y | Y | N |
-| 是否可以对流媒体编解码 | Y | N | N |
-| 是否需要终端语音编解码协商一致 | N | Y | Y |
-| 支持录音DTMF解析会议编解码转换 | Y | N | N |
+|                   | Default | Proxy | Bypass |
+| ----------------- | ------- | ----- | ------ |
+| 媒体是否从fs经过         | Y       | Y     | N      |
+| 是否可以对流媒体编解码       | Y       | N     | N      |
+| 是否需要终端语音编解码协商一致   | N       | Y     | Y      |
+| 支持录音DTMF解析会议编解码转换 | Y       | N     | N      |
 
 
 
